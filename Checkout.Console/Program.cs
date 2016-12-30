@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Environment = Checkout.Helpers.Environment;
 
 namespace Checkout.Console
 {
@@ -10,6 +6,9 @@ namespace Checkout.Console
     {
         static void Main(string[] args)
         {
+            var client = new APIClient("sk_test_32b9cb39-1cd6-4f86-b750-7069a133667d", Environment.Local);
+
+            client.LookupsService.GetBinLookup("foo");
         }
     }
 }

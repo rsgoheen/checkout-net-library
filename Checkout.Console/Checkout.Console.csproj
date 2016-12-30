@@ -49,6 +49,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Checkout.ApiClient.Net45\Checkout.ApiClient.Net45.csproj">
+      <Project>{1c69b996-8ab6-4ba2-a5ae-58a350cbb34b}</Project>
+      <Name>Checkout.ApiClient.Net45</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
