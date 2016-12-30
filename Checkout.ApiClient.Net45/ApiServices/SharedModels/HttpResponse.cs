@@ -18,5 +18,9 @@ namespace Checkout.ApiServices.SharedModels
         {
             this.Model = model;
         }
+
+        public HttpResponse()
+        {
+        }
     }
 }

@@ -219,23 +219,30 @@ namespace Checkout
 
         private HttpResponse<T> CreateHttpResponse<T>(string responseAsString, HttpStatusCode httpStatusCode)
         {
-            if (httpStatusCode == HttpStatusCode.OK && responseAsString != null)
+            if (responseAsString == null)
+                return null;
+
+            if (StatusCodeIsSuccess(httpStatusCode))
             {
-                return new HttpResponse<T>(GetResponseAsObject<T>(responseAsString))
+                return new HttpResponse<T>()
                 {
-                    HttpStatusCode = httpStatusCode
-                };
-            }
-            else if (responseAsString != null)
-            {
-                return new HttpResponse<T>(default(T))
-                {
-                    Error = GetResponseAsObject<ResponseError>(responseAsString),
+                    Model = GetResponseAsObject<T>(responseAsString),
                     HttpStatusCode = httpStatusCode
                 };
             }
 
-            return null;
+            return new HttpResponse<T>()
+            {
+                Model = default(T),
+                Error = GetResponseAsObject<ResponseError>(responseAsString),
+                HttpStatusCode = httpStatusCode
+            };
+        }
+
+        private static bool StatusCodeIsSuccess(HttpStatusCode httpStatusCode)
+        {
+            return    httpStatusCode == HttpStatusCode.OK
+                   || httpStatusCode == HttpStatusCode.Created;
         }
 
         private string GetObjectAsString(object requestModel)
