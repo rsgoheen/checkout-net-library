@@ -1,4 +1,5 @@
-﻿using Checkout.ApiServices.SharedModels;
+﻿using System.Collections.Generic;
+using Checkout.ApiServices.SharedModels;
 using Checkout.ApiServices.ShoppingLists.RequestModels;
 using Checkout.ApiServices.ShoppingLists.ResponseModels;
 
@@ -24,6 +25,29 @@ namespace Checkout.ApiServices.ShoppingLists
                 id);
 
             return new ApiHttpClient().GetRequest<ShoppingList>(uri, AppSettings.SecretKey);
+        }
+
+        public HttpResponse<Drink> UpdateDrink(ShoppingList shoppingList, DrinkUpdate updatedDrink)
+        {
+            var uri = string.Format(ApiUrls.ShoppingListAndDrink, shoppingList.Id);
+            return new ApiHttpClient().PutRequest<Drink>(uri, AppSettings.SecretKey, updatedDrink);
+        }
+
+        public HttpResponse<List<Drink>> GetDrinks(ShoppingList shoppingList)
+        {
+            var uri = string.Format(ApiUrls.ShoppingListAndDrink, shoppingList.Id);
+            return new ApiHttpClient().GetRequest<List<Drink>>(uri, AppSettings.SecretKey);
+        }
+
+        public HttpResponse<Drink> DeleteDrink(long shoppingListId, int drinkId)
+        {
+            var uri = string.Format(
+                string.Concat(ApiUrls.ShoppingListAndDrink, "/{1}"),
+                shoppingListId,
+                drinkId);
+
+            var foo = new ApiHttpClient().DeleteRequest<Drink>(uri, AppSettings.SecretKey);
+            return foo;
         }
     }
 }
