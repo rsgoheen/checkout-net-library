@@ -120,6 +120,7 @@
     <Compile Include="ApiServices\SharedModels\SortOrder.cs" />
     <Compile Include="ApiServices\ShoppingLists\RequestModels\BaseDrink.cs" />
     <Compile Include="ApiServices\ShoppingLists\RequestModels\BaseShoppingList.cs" />
+    <Compile Include="ApiServices\ShoppingLists\RequestModels\DrinkGet.cs" />
     <Compile Include="ApiServices\ShoppingLists\RequestModels\DrinkDelete.cs" />
     <Compile Include="ApiServices\ShoppingLists\RequestModels\DrinkUpdate.cs" />
     <Compile Include="ApiServices\ShoppingLists\ResponseModels\Drink.cs" />

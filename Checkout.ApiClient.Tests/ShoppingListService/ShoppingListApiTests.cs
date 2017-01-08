@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using Checkout.ApiServices.SharedModels;
 using Checkout.ApiServices.ShoppingLists.RequestModels;
@@ -94,6 +95,35 @@ namespace Tests
             updatedListResponse.Model.Drinks.ShouldAllBeEquivalentTo(new List<Drink>());
         }
 
+        [Test]
+        public void GetNonExistentList()
+        {
+            var listResponse = CheckoutClient.ShoppingListService.GetShoppingList(-1);
+
+            listResponse.Should().BeNull();
+
+            // Would prefer to have the following tests:
+            //listResponse.Should().NotBeNull();
+            //listResponse.HttpStatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+
+        [Test]
+        public void GetNonExistentDrink()
+        {
+            HttpResponse<ShoppingList> listResponse;
+            HttpResponse<Drink> drinkResponse;
+            TestAddDrink(out listResponse, out drinkResponse);
+
+            var getDrinksResponse = CheckoutClient.ShoppingListService.GetDrink(listResponse.Model, new DrinkGet() {Id = -1});
+
+            getDrinksResponse.Should().BeNull();
+            
+            // Would prefer to have the following tests:
+            //getDrinksResponse.Should().NotBeNull();
+            //getDrinksResponse.HttpStatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
         private void TestAddDrink(out HttpResponse<ShoppingList> updatedListResponse, out HttpResponse<Drink> drinkResponse)
         {
             var response = CheckoutClient.ShoppingListService.CreateShoppingList(new BaseShoppingList());
@@ -119,6 +149,13 @@ namespace Tests
             getDrinksResponse.Should().NotBeNull();
             getDrinksResponse.HttpStatusCode.Should().Be(HttpStatusCode.OK);
             getDrinksResponse.Model.Count.Should().Be(1);
+
+            var drinkRequest = new DrinkGet() {Id = getDrinksResponse.Model.First().Id};
+
+            var getDrinkResponse = CheckoutClient.ShoppingListService.GetDrink(shoppingList, drinkRequest);
+            getDrinkResponse.Should().NotBeNull();
+            getDrinkResponse.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            getDrinkResponse.Model.Quantity.Should().Be(drinkQuantity);
         }
     }
 }

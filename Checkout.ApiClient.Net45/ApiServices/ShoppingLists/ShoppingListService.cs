@@ -14,7 +14,7 @@ namespace Checkout.ApiServices.ShoppingLists
 
         public HttpResponse<Drink> AddDrinkToShoppingList(ShoppingList shoppingList, BaseDrink drink)
         {
-            var uri = string.Format(ApiUrls.ShoppingListAndDrink, shoppingList.Id);
+            var uri = string.Format(ApiUrls.ShoppingListAndDrinks, shoppingList.Id);
             return new ApiHttpClient().PostRequest<Drink>(uri, AppSettings.SecretKey, drink);
         }
 
@@ -29,20 +29,26 @@ namespace Checkout.ApiServices.ShoppingLists
 
         public HttpResponse<Drink> UpdateDrink(ShoppingList shoppingList, DrinkUpdate updatedDrink)
         {
-            var uri = string.Format(ApiUrls.ShoppingListAndDrink, shoppingList.Id);
+            var uri = string.Format(ApiUrls.ShoppingListAndDrinks, shoppingList.Id);
             return new ApiHttpClient().PutRequest<Drink>(uri, AppSettings.SecretKey, updatedDrink);
+        }
+
+        public HttpResponse<Drink> GetDrink(ShoppingList shoppingList, DrinkGet drink)
+        {
+            var uri = string.Format(ApiUrls.ShoppingListAndSingleDrink, shoppingList.Id, drink.Id);
+            return new ApiHttpClient().GetRequest<Drink>(uri, AppSettings.SecretKey);
         }
 
         public HttpResponse<List<Drink>> GetDrinks(ShoppingList shoppingList)
         {
-            var uri = string.Format(ApiUrls.ShoppingListAndDrink, shoppingList.Id);
+            var uri = string.Format(ApiUrls.ShoppingListAndDrinks, shoppingList.Id);
             return new ApiHttpClient().GetRequest<List<Drink>>(uri, AppSettings.SecretKey);
         }
 
         public HttpResponse<Drink> DeleteDrink(long shoppingListId, int drinkId)
         {
             var uri = string.Format(
-                string.Concat(ApiUrls.ShoppingListAndDrink, "/{1}"),
+                string.Concat(ApiUrls.ShoppingListAndDrinks, "/{1}"),
                 shoppingListId,
                 drinkId);
 
